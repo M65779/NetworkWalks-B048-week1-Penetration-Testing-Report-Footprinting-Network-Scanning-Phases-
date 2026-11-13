@@ -130,7 +130,10 @@ The whois networkwalks.com command returned the following:
 • Name servers: NS6135.HOSTGATOR.COM and NS6136.HOSTGATOR.COM
 • DNSSEC: unsigned
 • Domain status: transfer, update, delete and renew locks are enabled (client*Prohibited)
-[Insert Figure 1: whois output]
+
+![](WHOISResults.png)
+
+
 
 ---
 
