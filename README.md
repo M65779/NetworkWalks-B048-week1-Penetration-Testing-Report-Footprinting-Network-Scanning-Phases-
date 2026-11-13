@@ -131,7 +131,7 @@ The whois networkwalks.com command returned the following:
 • DNSSEC: unsigned
 • Domain status: transfer, update, delete and renew locks are enabled (client*Prohibited)
 
-![](WHOISResults.png)
+![](WHOIS.png)
 
 
 
