@@ -169,7 +169,7 @@ curl -I https://networkwalks.com returned HTTP/2 200 with these notable headers:
 • referrer-policy: no-referrer-when-downgrade
 • A permissions-policy header listing trusted third parties (Google, reCAPTCHA, Cloudflare, hCaptcha)
 
-![](CURL-l.png)
+![](CURL-I.png)
 
 ---
 
