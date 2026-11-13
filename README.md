@@ -194,9 +194,8 @@ wafw00f networkwalks.com (v2.4.2) detected that the site is behind ModSecurity (
 4.1.7 OSINT with theHarvester
 theHarvester 4.11.1 was run in two configurations:
 • theHarvester -d microsoft.com -l 1000 -b baidu returned no IPs, emails, people or hosts from Baidu.
-• theHarvester -d microsoft.com -l 50 -b all failed on several sources (bevigil, Bitbucket, bufferoverun, BuiltWith, Brave, Censys) because no API keys were configured.
 These runs were used to test the tool and learn how it behaves. They showed that theHarvester's output depends heavily on configured API keys and the choice of data source.
-Both runs were the tasks set in the Networkwalks theHarvester lab: Task 1 used Baidu with a 1000-result limit, and Task 2 used all sources with a 50-result limit. The lab names microsoft.com as the example target. theHarvester reads public sources and does not touch the target directly, so these searches were passive.
+The lab names microsoft.com as the example target. theHarvester reads public sources and does not touch the target directly, so these searches were passive.
 
 ![](Harvester-d.png)
 
@@ -210,29 +209,10 @@ In Maltego Desktop 4.14.0, networkwalks.com was added as a Domain entity. The "T
 ---
 
 ## 4.2 Network Scanning with Zenmap (Ping Scan)
-Zenmap was used to run a ping scan (host discovery) on the local network the Kali VM is connected to (192.168.0.x). A ping scan only checks which hosts are online. It does not scan ports or identify services. This is a separate target from networkwalks.com, and it is the author's own home network, so the scan was done with full authorisation. The Topology tab (Fisheye view) shows the VM as localhost at the centre, with a dotted line to each of the 8 live hosts around it. All hosts are green with no extra icons, because a ping scan collects no port information:
-Host
-Device type
-Host A
-Home router
-Host B
-Wi-Fi smart-home device
-Host C
-Set-top box
-Host D
-Laptop
-Host E
-Wi-Fi chime / extender
-Host F
-iPhone
-Host G
-Unidentified
-Host H
-Unidentified
+Zenmap was used to run a ping scan (host discovery) on the local network the Kali VM is connected to. A ping scan only checks which hosts are online. It does not scan ports or identify services. This is a separate target from networkwalks.com, and it is the author's own home network, so the scan was done with full authorisation. 
 Observations:
 • The scan found 8 live hosts, each connected directly to the VM, which is expected on a flat home network.
 • Most are consumer devices: an iPhone, a laptop, a home router, a set-top box and smart-home devices.
-• Two hosts (G and H) could not be identified by name and appear as UNKNOWN.
 • No host shows a padlock or other marker, because a ping scan does not test ports or services.
 • Every device that answered the ping is visible to anyone on the same network, which is the main exposure shown by this scan.
 Limitation: a ping scan only shows which devices are online. A follow-up port and service scan (e.g. Zenmap's Intense scan) would be needed to find open ports and software versions. Device names and IP addresses are blurred in Figure 10 and replaced with generic labels in the table above.
@@ -244,66 +224,131 @@ Limitation: a ping scan only shows which devices are online. A follow-up port an
 ## 5. Risk Analysis / Impact
 Based on the information collected during the footprinting and network scanning activities, I identified the following potential risks.
 #
-Finding
-Risk
-Impact
-1
-Software version disclosure. WordPress 7.1.4, WP Download Manager 3.3.76 and jQuery 3.7.1 are identifiable.
-Low-Medium
-An attacker can search for known vulnerabilities in these exact versions, especially in plugins.
-2
-BIND version disclosed (9.16.23-RH) on both name servers.
-Low
-Allows targeted attacks against known BIND flaws.
-3
-WordPress REST API exposed via the link header and /wp-json/.
-Low
-Can allow enumeration of pages, posts and sometimes users.
-4
-Public email address (info@networkwalks.com).
-Low
-A target for phishing and spam campaigns.
-5
-DNSSEC not enabled.
-Low
-The domain is more exposed to DNS spoofing and cache poisoning.
-6
-SPF ends in ~all (soft fail).
-Low
-Spoofed emails from the domain may still be delivered.
-7
-Shared hosting infrastructure (HostGator/cPanel).
-Informational
-A compromise elsewhere on the shared environment could affect the site.
-8
-Missing security headers. HSTS, CSP, X-Frame-Options and X-Content-Type-Options were not seen in the response headers.
-Low
-Increases exposure to clickjacking, MIME sniffing and downgrade attacks.
-9
-Weak referrer policy (no-referrer-when-downgrade).
-Informational
-May leak full URLs to third parties over HTTPS.
-10
-Local network: 8 live devices found by the ping scan, including two that could not be identified.
-Low-Medium
-Unknown devices are harder to patch and monitor, and could be unauthorised.
-Positive findings: the site enforces HTTPS with a 301 redirect, runs behind a ModSecurity WAF, uses Secure and HttpOnly cookie flags, and has domain transfer and update locks enabled. On the local network, the ping scan exposed only which devices are online, with no service details.
+<table border="1" cellpadding="8" cellspacing="0" style="width:100%; border-collapse:collapse; font-family:Arial, sans-serif;">
+    <thead>
+        <tr style="background-color:#263b5e; color:white;">
+            <th>No.</th>
+            <th>Finding</th>
+            <th>Risk</th>
+            <th>Impact</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Software version disclosure. WordPress 7.1.4, WP Download Manager 3.3.76 and jQuery 3.7.1 are identifiable.</td>
+            <td>Low-Medium</td>
+            <td>An attacker can search for known vulnerabilities in these exact versions, especially in plugins.</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>BIND version disclosed (9.16.23-RH) on both name servers.</td>
+            <td>Low</td>
+            <td>Allows targeted attacks against known BIND flaws.</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>WordPress REST API exposed via the Link header and /wp-json/.</td>
+            <td>Low</td>
+            <td>Can allow enumeration of pages, posts and sometimes users.</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Public email address (info@networkwalks.com).</td>
+            <td>Low</td>
+            <td>A target for phishing and spam campaigns.</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>DNSSEC not enabled.</td>
+            <td>Low</td>
+            <td>The domain is more exposed to DNS spoofing and cache poisoning.</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>SPF ends in ~all (soft fail).</td>
+            <td>Low</td>
+            <td>Spoofed emails from the domain may still be delivered.</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Shared hosting infrastructure (HostGator/cPanel).</td>
+            <td>Informational</td>
+            <td>A compromise elsewhere on the shared environment could affect the site.</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Missing security headers. HSTS, CSP, X-Frame-Options and X-Content-Type-Options were not seen in the response headers.</td>
+            <td>Low</td>
+            <td>Increases exposure to clickjacking, MIME sniffing and downgrade attacks.</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>Weak referrer policy (no-referrer-when-downgrade).</td>
+            <td>Informational</td>
+            <td>May leak full URLs to third parties over HTTPS.</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>Local network: 8 live devices found by the ping scan, including two that could not be identified.</td>
+            <td>Low-Medium</td>
+            <td>Unknown devices are harder to patch and monitor, and could be unauthorised.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Positive Security Findings</h3>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width:100%; border-collapse:collapse; font-family:Arial, sans-serif;">
+    <thead>
+        <tr style="background-color:#287a50; color:white;">
+            <th>No.</th>
+            <th>Positive Finding</th>
+            <th>Security Benefit</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>HTTPS enforcement with a 301 redirect.</td>
+            <td>Ensures visitors are redirected to a secure HTTPS connection.</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>ModSecurity Web Application Firewall (WAF).</td>
+            <td>Provides an additional layer of protection against common web attacks.</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Secure and HttpOnly cookie flags enabled.</td>
+            <td>Helps protect cookies against interception and client-side script access.</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Domain transfer and update locks enabled.</td>
+            <td>Helps prevent unauthorised domain transfers and unwanted changes.</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Local network ping scan revealed only live devices, without service details.</td>
+            <td>Network discovery was limited to identifying which devices were online.</td>
+        </tr>
+    </tbody>
+</table>
 
 ---
+
 
 ## 6. Recommendations
 Based on the observations from these activities, I recommend the following security improvements:
 1.  Keep WordPress, plugins and libraries updated, and remove unused plugins. Hide version strings from generator tags and headers where possible.
-2.  Hide the BIND version by configuring version "not disclosed"; on the DNS servers, or ask the hosting provider to do so.
-3.  Restrict the WordPress REST API for unauthenticated users where it isn't needed, and remove the link header exposure.
-4.  Enable DNSSEC through the registrar and DNS host.
-5.  Tighten email authentication. Move SPF to -all once all senders are confirmed, and implement DKIM and DMARC.
-6.  Add security headers: Strict-Transport-Security, Content-Security-Policy, X-Frame-Options, X-Content-Type-Options, and a stricter Referrer-Policy (e.g. strict-origin-when-cross-origin).
-7.  Use a role-based or contact-form address instead of a plain public email, and train staff to spot phishing.
-8.  Maintain the WAF with up-to-date rule sets, and consider monitoring and rate limiting.
-9.  Review the hosting setup. Consider a dedicated VPS or a hardened managed WordPress host.
-10.  Run a port and service scan of the local network, starting with the router and set-top box, and disable services that aren't needed.
-11.  Identify and inventory every device on the local network, remove unknown ones, and consider a separate guest network for IoT and visitor devices.
+2.  Restrict the WordPress REST API for unauthenticated users where it isn't needed, and remove the link header exposure.
+3.  Enable DNSSEC through the registrar and DNS host.
+4.  Tighten email authentication. Move SPF to -all once all senders are confirmed, and implement DKIM and DMARC.
+5.  Use a role-based or contact-form address instead of a plain public email, and train staff to spot phishing.
+6.  Maintain the WAF with up-to-date rule sets, and consider monitoring and rate limiting.
+7.  Review the hosting setup. Consider a dedicated VPS or a hardened managed WordPress host.
+8.  Run a port and service scan of the local network, starting with the router and set-top box, and disable services that aren't needed.
 
 ---
 
