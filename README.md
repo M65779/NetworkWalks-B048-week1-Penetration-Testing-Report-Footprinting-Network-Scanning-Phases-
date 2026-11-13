@@ -1,7 +1,9 @@
 # NetworkWalks-B048-week1-Penetration-Testing-Report-Footprinting-Network-Scanning-Phases
-Penetration-Testing-Report (Footprinting &amp; Network Scanning Phases)
+<div align="center">
 Penetration Testing Report
+    
 FOOTPRINTING & NETWORK SCANNING PHASES
+</div>
 
 <table border="1" cellpadding="8" cellspacing="0">
     <thead>
