@@ -120,8 +120,8 @@ Testing dates: 10-11 November 2026.
 ---
 
 4. Activities Performed
-4.1 Footprinting & Reconnaissance
-## 4.1.1 Domain registration (whois)
+    Footprinting & Reconnaissance
+## Domain registration (whois)
 The whois networkwalks.com command returned the following:
 • Registrar: GoDaddy.com, LLC
 • Created: 6 November 2019
@@ -137,13 +137,14 @@ The whois networkwalks.com command returned the following:
 
 ---
 
-## 4.1.2 DNS resolution (nslookup)
+##  DNS resolution (nslookup)
 Using Google's resolver (8.8.8.8), the domain resolved to 192.232.216.135 (non-authoritative answer).
-[Insert Figure 2: nslookup output]
+
+![](NSLOOKUP.png)
 
 ---
 
-## 4.1.3 DNS enumeration (dnsrecon)
+## DNS enumeration (dnsrecon)
 dnsrecon -d networkwalks.com revealed:
 • SOA: ns6135.hostgator.com (50.87.144.87)
 • NS: ns6135.hostgator.com (50.87.144.87) and ns6136.hostgator.com (192.232.216.131)
@@ -154,11 +155,12 @@ dnsrecon -d networkwalks.com revealed:
 • TXT: a Google site-verification record
 • SRV: multiple _autodiscover._tcp records pointing to cpanelemaildiscovery.cpanel.net, indicating cPanel-based hosting
 • Error: no answer for the DNSSEC query, consistent with the whois result
-[Insert Figure 3: dnsrecon output]
+
+![](DNSRECON-D.png)
 
 ---
 
-## 4.1.4 HTTP header analysis (curl)
+##  HTTP header analysis (curl)
 curl -I https://networkwalks.com returned HTTP/2 200 with these notable headers:
 • server: Apache
 • x-nginx-cache: WordPress and x-endurance-cache-level: 0, indicating WordPress with a hosting-level cache
@@ -166,11 +168,12 @@ curl -I https://networkwalks.com returned HTTP/2 200 with these notable headers:
 • A __wpdm_client cookie set with secure and HttpOnly flags
 • referrer-policy: no-referrer-when-downgrade
 • A permissions-policy header listing trusted third parties (Google, reCAPTCHA, Cloudflare, hCaptcha)
-[Insert Figure 4: curl output]
+
+![](CURL-l.png)
 
 ---
 
-## 4.1.5 Technology fingerprinting (whatweb)
+##  Technology fingerprinting (whatweb)
 whatweb networkwalks.com showed an HTTP 301 redirect to HTTPS, followed by a 200 OK. Identified technologies:
 • Apache web server
 • WordPress 7.1.4
@@ -180,24 +183,29 @@ whatweb networkwalks.com showed an HTTP 301 redirect to HTTPS, followed by a 200
 • Site title "Networkwalks Academy"
 • Public email address info@networkwalks.com
 • IP 192.232.216.135 (United States)
-[Insert Figure 5: whatweb output
+
+![](WHATWEB.png)
 
 ## 4.1.6 WAF detection (wafw00f)
 wafw00f networkwalks.com (v2.4.2) detected that the site is behind ModSecurity (SpiderLabs) WAF, using 2 requests.
-[Insert Figure 6: wafw00f output]
+
+![](WHATWEB.png)
+
 4.1.7 OSINT with theHarvester
 theHarvester 4.11.1 was run in two configurations:
 • theHarvester -d microsoft.com -l 1000 -b baidu returned no IPs, emails, people or hosts from Baidu.
 • theHarvester -d microsoft.com -l 50 -b all failed on several sources (bevigil, Bitbucket, bufferoverun, BuiltWith, Brave, Censys) because no API keys were configured.
 These runs were used to test the tool and learn how it behaves. They showed that theHarvester's output depends heavily on configured API keys and the choice of data source.
 Both runs were the tasks set in the Networkwalks theHarvester lab: Task 1 used Baidu with a 1000-result limit, and Task 2 used all sources with a 50-result limit. The lab names microsoft.com as the example target. theHarvester reads public sources and does not touch the target directly, so these searches were passive.
-[Insert Figures 7 and 8: theHarvester output]
+
+![](Harvester-d.png)
 
 ---
 
 ## 4.1.8 Graph-based OSINT with Maltego
 In Maltego Desktop 4.14.0, networkwalks.com was added as a Domain entity. The "To Email Addresses [Search Engine]" transform found info@networkwalks.com, which matches the whatweb result. The transform consumed 65 credits, leaving 135.
-[Insert Figure 9: Maltego graph]
+
+![](maltegograph.png)
 
 ---
 
@@ -228,7 +236,8 @@ Observations:
 • No host shows a padlock or other marker, because a ping scan does not test ports or services.
 • Every device that answered the ping is visible to anyone on the same network, which is the main exposure shown by this scan.
 Limitation: a ping scan only shows which devices are online. A follow-up port and service scan (e.g. Zenmap's Intense scan) would be needed to find open ports and software versions. Device names and IP addresses are blurred in Figure 10 and replaced with generic labels in the table above.
-[Insert Figure 10: Zenmap ping scan Topology view of the local network (blurred)]
+
+![](ping_blurred.png)
 
 ---
 
