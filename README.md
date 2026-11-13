@@ -3,28 +3,56 @@ Penetration-Testing-Report (Footprinting &amp; Network Scanning Phases)
 Penetration Testing Report
 FOOTPRINTING & NETWORK SCANNING PHASES
 
-Pentester Name
-(Cybersecurity Professional)
-Raheela Razaq
-Program/Batch
-B084-Networkwalks
-Date
-12.11.2026
-Modules completed
-W2-PM1 (Multiple Kali Tools)
-W2-PM3 (Footprinting with Maltego)
-W2-PM4 (Footprinting with theHarvester)
-W2-PM5 (Zenmap Scanning)
-Client/Target
-1. Networkwalks (secured written permission already)
-2. My own local LAN Network
-Permission secured from client?
-Yes
-Phases covered
-Phase 1: Reconnaissance & Footprinting
-Phase 2: Scanning & Network Discovery
-Phase 3-5: In Progress
-
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Pentester Name (Cybersecurity Professional)</td>
+            <td>Raheela Razaq</td>
+        </tr>
+        <tr>
+            <td>Program/Batch</td>
+            <td>B084-Networkwalks</td>
+        </tr>
+        <tr>
+            <td>Date</td>
+            <td>12.11.2026</td>
+        </tr>
+        <tr>
+            <td>Modules Completed</td>
+            <td>
+                W2-PM1 (Multiple Kali Tools)<br>
+                W2-PM3 (Footprinting with Maltego)<br>
+                W2-PM4 (Footprinting with theHarvester)<br>
+                W2-PM5 (Zenmap Scanning)
+            </td>
+        </tr>
+        <tr>
+            <td>Client/Target</td>
+            <td>
+                1. Networkwalks (secured written permission already)<br>
+                2. My own local LAN Network
+            </td>
+        </tr>
+        <tr>
+            <td>Permission Secured from Client?</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td>Phases Covered</td>
+            <td>
+                Phase 1: Reconnaissance &amp; Footprinting<br>
+                Phase 2: Scanning &amp; Network Discovery<br>
+                Phase 3-5: In Progress
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 ## 1. Liability Disclaimer
 This report was produced for educational purposes as part of a cybersecurity learning exercise. All activities were performed from an isolated Kali Linux virtual machine. The findings reflect only the information available at the time of testing (10-11 November 2026) and should not be treated as a complete security assessment. The author accepts no liability for any use of this information beyond its educational purpose.
@@ -34,32 +62,58 @@ Authorisation and scope: This work was carried out as a security professional wo
 
 ## 2. Introduction
 The aim of this exercise was to gather information about the target domain networkwalks.com using passive and active reconnaissance techniques. This covered domain registration, DNS records, web technologies, hosting infrastructure, and any publicly exposed contact information. The work was done from a Kali Linux 2026.3 VM running in Oracle VirtualBox.
-Scope: networkwalks.com and its associated infrastructure, plus the author's own local 192.168.0.x network for the Zenmap scan.
+Scope: networkwalks.com and its associated infrastructure, plus the author's own local network for the Zenmap scan.
 Testing dates: 10-11 November 2026.
 
 ---
 
 ## 3. Tools Used
-Tool
-Purpose
-whois
-Domain registration details
-nslookup
-DNS resolution (A record)
-dnsrecon
-DNS enumeration (SOA, NS, MX, TXT, SRV)
-curl -I
-HTTP response header inspection
-whatweb
-Web technology fingerprinting
-wafw00f
-Web Application Firewall detection
-theHarvester 4.11.1
-OSINT gathering of emails, hosts and IPs
-Maltego 4.14.0
-Graph-based OSINT and entity mapping
-Zenmap
-Network scanning
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Tool</th>
+            <th>Purpose</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>whois</td>
+            <td>Domain registration details</td>
+        </tr>
+        <tr>
+            <td>nslookup</td>
+            <td>DNS resolution (A record)</td>
+        </tr>
+        <tr>
+            <td>dnsrecon</td>
+            <td>DNS enumeration (SOA, NS, MX, TXT, SRV)</td>
+        </tr>
+        <tr>
+            <td>curl -I</td>
+            <td>HTTP response header inspection</td>
+        </tr>
+        <tr>
+            <td>whatweb</td>
+            <td>Web technology fingerprinting</td>
+        </tr>
+        <tr>
+            <td>wafw00f</td>
+            <td>Web Application Firewall detection</td>
+        </tr>
+        <tr>
+            <td>theHarvester 4.11.1</td>
+            <td>OSINT gathering of emails, hosts and IPs</td>
+        </tr>
+        <tr>
+            <td>Maltego 4.14.0</td>
+            <td>Graph-based OSINT and entity mapping</td>
+        </tr>
+        <tr>
+            <td>Zenmap</td>
+            <td>Network scanning</td>
+        </tr>
+    </tbody>
+</table>
 
 ---
 
